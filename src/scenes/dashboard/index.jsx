@@ -107,7 +107,7 @@ const Dashboard = () => {
 
         </Box>
         <Tabs
-          value={selectedType || false} // Use `false` when `selectedType` is `null`
+          value={selectedType || false}
           onChange={handleTabChange}
           textColor="primary"
           indicatorColor="primary"
@@ -122,8 +122,8 @@ const Dashboard = () => {
               backgroundColor: "rgb(42, 180, 234)" // Indicator color
             },
           }}
-          variant={isSmallScreen ? "scrollable" : "standard"}
-          scrollButtons={isSmallScreen ? "auto" : false}
+          //variant={isSmallScreen ? "scrollable" : "standard"}
+          //scrollButtons={isSmallScreen ? "auto" : false}
         >
           {types.map((type) => (
             <Tab key={type} label={type} value={type} />
