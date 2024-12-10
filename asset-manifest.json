@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/unitec/static/css/main.07a6e487.css",
-    "main.js": "/unitec/static/js/main.32760d49.js",
+    "main.js": "/unitec/static/js/main.746298eb.js",
     "static/media/Logo.png": "/unitec/static/media/Logo.87cc951ce85834817def.png",
     "index.html": "/unitec/index.html",
     "main.07a6e487.css.map": "/unitec/static/css/main.07a6e487.css.map",
-    "main.32760d49.js.map": "/unitec/static/js/main.32760d49.js.map"
+    "main.746298eb.js.map": "/unitec/static/js/main.746298eb.js.map"
   },
   "entrypoints": [
     "static/css/main.07a6e487.css",
-    "static/js/main.32760d49.js"
+    "static/js/main.746298eb.js"
   ]
 }
