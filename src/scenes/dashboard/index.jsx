@@ -7,13 +7,11 @@ import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import Header from "../../components/Header";
 import Chart from "../../components/LineChart";
-import RefreshIcon from "@mui/icons-material/Refresh";
 import StatBox from "../../components/StatBox";
 import DeviceThermostatIcon from "@mui/icons-material/DeviceThermostat";
 import CoronavirusIcon from "@mui/icons-material/Coronavirus";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers";
-import DateRangePicker from "./utils/DataRangePicker";
 import useFetchSensorData from "./utils/useFetchSensorData";
 import dashboardStyles from "./styles"; // Import the styles
 
@@ -24,7 +22,7 @@ const Dashboard = () => {
   const [daysRemaining, setDaysRemaining] = useState(0);
 
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check if the screen is small
-  const { isLoading, filteredSensors, setFilteredSensors, types, selectedType, setSelectedType, data, downloadAll, downloadExcel, devices, selectedDevice, setSelectedDevice, startDate, formatTimestamp, setStartDate, endDate, setEndDate, refreshDevices } = useFetchSensorData();
+  const { isLoading, filteredSensors, setFilteredSensors, types, selectedType, setSelectedType, data, downloadExcel, devices, selectedDevice, setSelectedDevice, formatTimestamp } = useFetchSensorData();
   useEffect(() => {
     // Calculate the days remaining
     const today = new Date();
@@ -88,23 +86,6 @@ const Dashboard = () => {
         {/* HEADER */}
         <Box display="flex" justifyContent="space-between" alignItems="center">
           <Header title="DASHBOARD" subtitle="Análise de sensores" />
-          {selectedDevice && (!isSmallScreen && (
-            <Box display="flex" alignItems="center" gap="10px">
-              <IconButton onClick={refreshDevices} sx={styles.iconButton}>
-                <RefreshIcon />
-              </IconButton>
-              <IconButton onClick={downloadAll} sx={styles.iconButton}>
-                <DownloadOutlinedIcon />
-              </IconButton>
-              <DateRangePicker
-                startDate={startDate}
-                setStartDate={setStartDate}
-                endDate={endDate}
-                setEndDate={setEndDate}
-              />
-            </Box>
-          ))}
-
         </Box>
         <Tabs
           value={selectedType || false}
@@ -125,6 +106,7 @@ const Dashboard = () => {
           //variant={isSmallScreen ? "scrollable" : "standard"}
           //scrollButtons={isSmallScreen ? "auto" : false}
         >
+          <Typography>{types}</Typography>
           {types.map((type) => (
             <Tab key={type} label={type} value={type} />
           ))}
