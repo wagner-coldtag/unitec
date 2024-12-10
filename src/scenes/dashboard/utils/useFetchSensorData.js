@@ -3,8 +3,8 @@ import axios from "axios";
 import * as XLSX from "xlsx"; // Import xlsx
 
 const useFetchSensorData = () => {
-  const user = JSON.parse(localStorage.getItem("profile"));
   const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const [devices, setDevices] = useState([]);
   const [filteredSensors, setFilteredSensors] = useState([]);
 
@@ -21,7 +21,7 @@ const useFetchSensorData = () => {
 
   const fetchDevices = async () => {
     try {
-      const company = user.company;
+      const company = "Coldtag";
       const url = `https://08mwl5gxyj.execute-api.sa-east-1.amazonaws.com/devices?company=${encodeURIComponent(company)}`;
 
       const response = await fetch(url);
@@ -37,7 +37,7 @@ const useFetchSensorData = () => {
 
   const fetchSensorData = async () => {
     try {
-      const company = user.Company;  // Get the user's company
+      const company = "Coldtag";  // Get the user's company
       const response = await axios.get(`https://nrsx9ksod5.execute-api.sa-east-1.amazonaws.com/prod/sensors?company=${company}`);
       const jsonData = response?.data || [];
       console.log(response);
@@ -101,9 +101,9 @@ const useFetchSensorData = () => {
       if (!selectedDevice) return; // Don't fetch if no device is selected
 
       try {
-        console.log("hei");
+        setIsLoading(true);
+        console.log(isLoading);
 
-        console.log(selectedDevice);
 
         const response = await fetch(`https://08mwl5gxyj.execute-api.sa-east-1.amazonaws.com/device-data?company=CompanyA&device_id=${selectedDevice.device_id}`);
         if (!response.ok) throw new Error("Network response was not ok");
@@ -149,14 +149,16 @@ const useFetchSensorData = () => {
           ];
         };
         setData(formatData(sortedData.filter(item => item.device_id === selectedDevice?.device_id)));
+        setIsLoading(false);
+
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
 
-    fetchPackageData(); // Call to fetch data initially
-    const intervalId = setInterval(fetchPackageData, 60000); // Fetch data every 60 seconds
-    return () => clearInterval(intervalId); // Cleanup on unmount
+    fetchPackageData();
+    const intervalId = setInterval(fetchPackageData, 600000); // Fetch data every 10 minutes
+    return () => clearInterval(intervalId);
   }, [selectedDevice, startDate, endDate]);
 
   const downloadExcel = () => {
@@ -195,7 +197,7 @@ const useFetchSensorData = () => {
   };
 
 
-  return { types, setTypes, filteredSensors, setFilteredSensors, selectedType, setSelectedType, data, downloadAll, downloadExcel, setData, devices, selectedDevice, setSelectedDevice, startDate, formatTimestamp, setStartDate, endDate, setEndDate, refreshDevices };
+  return { isLoading, types, setTypes, filteredSensors, setFilteredSensors, selectedType, setSelectedType, data, downloadAll, downloadExcel, setData, devices, selectedDevice, setSelectedDevice, startDate, formatTimestamp, setStartDate, endDate, setEndDate, refreshDevices };
 };
 
 export default useFetchSensorData;
